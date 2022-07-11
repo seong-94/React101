@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function MinutesToHours() {
+      const [Minutes, setMinutes] = React.useState(0);
+      const [inverted, setInverted] = React.useState(false);
+      const onChange = () => {
+        setMinutes(event.target.value);
+      };
+      const reset = () => {
+        setMinutes(0);
+      };
+      const onFlip = () => {
+        reset();
+        setInverted((current) => !current);
+      };
+      return (
+        <div>
+          <label htmlFor="minutes">Minutes</label>
+          <input
+            value={inverted ? Minutes * 60 : Minutes}
+            id="minutes"
+            type="number"
+            placeholder="minutes"
+            onChange={onChange}
+            disabled={inverted === true}
+          ></input>
+          <div></div>
+          <label htmlFor="Hours">Hour</label>
+          <input
+            value={inverted ? Minutes : Math.round(Minutes / 60)}
+            id="hours"
+            placeholder="Hours"
+            type="number"
+            disabled={inverted === false}
+            onChange={onChange}
+          ></input>
+
+          <div>
+            <button onClick={reset}> Reset Button</button>
+            <button onClick={onFlip}>
+              {inverted ? "Trun Back" : " inverted"}
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    function KmToMiles() {
+      return <h3> km to miles</h3>;
+    }
+
+    function App() {
+      const [index, setIndex] = React.useState("0");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+        // console.log(index);
+      };
+      return (
+        <div>
+          <h1 className="title">Super Converter</h1>
+          <select value={index} onChange={onSelect}>
+            <option value="0">Min & Hours</option>
+            <option value="1">Km & Miles</option>
+          </select>
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
